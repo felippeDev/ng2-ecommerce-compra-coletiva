@@ -1,8 +1,15 @@
+import { Http } from '@angular/http'
+import { Injectable } from '@angular/core'
 import { Oferta } from './shared/oferta.model'
 
+import 'rxjs/add/operator/toPromise'
+
+@Injectable()
 export class OfertasService {
 
-  public ofertas: Array<Oferta> = [
+  constructor(private http: Http) { }
+
+  public ofertas: Oferta[] = [
     {
       id: 1,
       categoria: "restaurante",
@@ -54,8 +61,8 @@ export class OfertasService {
   ]
 
   public getOfertas(): Promise<Oferta[]> {
-    return new Promise((resolve, reject) => {
-      resolve(this.ofertas)
-    })
+    return this.http.get('http://local:3000/ofertas?destaque=true')
+      .toPromise()
+      .then((resposta: any) => resposta.json())
   }
 }
