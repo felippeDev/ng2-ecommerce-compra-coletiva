@@ -7,62 +7,44 @@ import 'rxjs/add/operator/toPromise'
 @Injectable()
 export class OfertasService {
 
+  private SERVICE_URI: string = 'http://localhost:3000'
+
   constructor(private http: Http) { }
 
-  public ofertas: Oferta[] = [
-    {
-      id: 1,
-      categoria: "restaurante",
-      titulo: "Super Burger",
-      descricao_oferta: "Rodízio de Mini-hambúrger com opção de entrada.",
-      anunciante: "Original Burger",
-      valor: 29.90,
-      destaque: true,
-      imagens: [
-        { url: "/assets/ofertas/1/img1.jpg" },
-        { url: "/assets/ofertas/1/img2.jpg" },
-        { url: "/assets/ofertas/1/img3.jpg" },
-        { url: "/assets/ofertas/1/img4.jpg" }
-      ]
-    },
-    {
-      id: 2,
-      categoria: "restaurante",
-      titulo: "Cozinha Mexicana",
-      descricao_oferta: "Almoço ou Jantar com Rodízio Mexicano delicioso.",
-      anunciante: "Mexicana",
-      valor: 32.90,
-      destaque: true,
-      imagens: [
-        { url: "/assets/ofertas/2/img1.jpg" },
-        { url: "/assets/ofertas/2/img2.jpg" },
-        { url: "/assets/ofertas/2/img3.jpg" },
-        { url: "/assets/ofertas/2/img4.jpg" }
-      ]
-
-    },
-    {
-      id: 4,
-      categoria: "diversao",
-      titulo: "Estância das águas",
-      descricao_oferta: "Diversão garantida com piscinas, trilhas e muito mais.",
-      anunciante: "Estância das águas",
-      valor: 31.90,
-      destaque: true,
-      imagens: [
-        { url: "/assets/ofertas/3/img1.jpg" },
-        { url: "/assets/ofertas/3/img2.jpg" },
-        { url: "/assets/ofertas/3/img3.jpg" },
-        { url: "/assets/ofertas/3/img4.jpg" },
-        { url: "/assets/ofertas/3/img5.jpg" },
-        { url: "/assets/ofertas/3/img6.jpg" }
-      ]
-    }
-  ]
-
+  //Busca todas as ofertas em destaque
   public getOfertas(): Promise<Oferta[]> {
-    return this.http.get('http://local:3000/ofertas?destaque=true')
+    return this.http.get(this.SERVICE_URI + '/ofertas?destaque=true')
       .toPromise()
-      .then((resposta: any) => resposta.json())
+      .then((response: any) => response.json())
+  }
+
+  //Busca ofertas por categoria
+  public getOfertasPorCategoria(categoria: string): Promise<Oferta[]> {
+    // return this.http.get(`http://local:3000/ofertas?categoria=${categoria}`)
+    return this.http.get(this.SERVICE_URI + '/ofertas?categoria=' + categoria)
+      .toPromise()
+      .then((response: any) => response.json())
+  }
+
+  //Busca oferta por id
+  public getOfertasPorId(id: number): Promise<Oferta> {
+    // return this.http.get(`http://local:3000/ofertas/${id}`)
+    return this.http.get(this.SERVICE_URI + '/ofertas/' + id)
+      .toPromise()
+      .then((response: any) => response.json())
+  }
+
+  //Busca dados de como-usar
+  public getComoUsarOfertaPorId(id: number): Promise<string> {
+    return this.http.get(this.SERVICE_URI + '/como-usar?id=' + id)
+      .toPromise()
+      .then((response: any) => response.json()[0].descricao)
+  }
+
+  //Busca dados de onde-fica
+  public getOndeFicaPorId(id: number): Promise<string> {
+    return this.http.get(this.SERVICE_URI + '/onde-fica?id=' + id)
+      .toPromise()
+      .then((response: any) => response.json()[0].descricao)
   }
 }

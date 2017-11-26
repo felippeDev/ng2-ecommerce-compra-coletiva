@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { OfertasService } from '../ofertas.service'
 import { Oferta } from '../shared/oferta.model'
+import { OfertasService } from '../ofertas.service'
 
 @Component({
   selector: 'app-home',
@@ -10,18 +10,18 @@ import { Oferta } from '../shared/oferta.model'
 })
 export class HomeComponent implements OnInit {
 
-  public ofertas: Array<Oferta>
+  public ofertas: Oferta[]
 
   constructor(private ofertasService: OfertasService) { }
 
   ngOnInit() {
     this.ofertasService.getOfertas()
-      .then((ofertas: Oferta[]) => {
-        console.log('resolve!')
-        this.ofertas = ofertas
+      .then((response: Oferta[]) => {
+        this.ofertas = response
       })
-      .catch((param: any) => {
-        console.log('catch!')
+      .catch((reason: any) => {
+        console.log('Erro: Não foi possível buscar ofertas em destaque')
+        console.log(reason)
       })
   }
 }
