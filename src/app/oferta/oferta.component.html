@@ -3,6 +3,14 @@
 
     <div class="row">
       <div class="col">
+        <a [routerLink]="['/oferta', 1]">Oferta 1</a>
+        <a [routerLink]="['/oferta', 2]">Oferta 2</a>
+        <a [routerLink]="['/oferta', 3]">Oferta 3</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
         <h4>{{ oferta.descricao_oferta }}</h4>
       </div>
     </div>
@@ -43,7 +51,6 @@
     </div>
 
   </div>
-
   <div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
